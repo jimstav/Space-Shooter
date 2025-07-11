@@ -1,3 +1,4 @@
+import { Player } from "../../objects/player";
 import { EventBus } from "../EventBus";
 import { Scene } from "phaser";
 
@@ -7,13 +8,7 @@ export class Game extends Scene {
   }
 
   create() {
-    this.add
-      .text(this.scale.width / 2, this.scale.height / 2, "Hello World", {
-        fontSize: "32px",
-      })
-      .setOrigin(0.5);
-
-    this.add.sprite(100, 100, "ship");
+    const player = new Player(this);
 
     EventBus.emit("current-scene-ready", this);
   }
