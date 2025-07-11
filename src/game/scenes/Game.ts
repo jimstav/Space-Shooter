@@ -12,6 +12,9 @@ export class Game extends Scene {
         fontSize: "32px",
       })
       .setOrigin(0.5);
+
+    this.add.sprite(100, 100, "ship");
+
     EventBus.emit("current-scene-ready", this);
   }
 

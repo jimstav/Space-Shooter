@@ -1,5 +1,7 @@
 import { Game } from "phaser";
 import { Game as MainGame } from "./scenes/Game";
+import { Boot } from "./scenes/Boot";
+import { Preloader } from "./scenes/Preloader";
 
 //  Find out more information about the Game Config at:
 //  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
@@ -22,7 +24,7 @@ const config: Phaser.Types.Core.GameConfig = {
       debug: true,
     },
   },
-  scene: [MainGame],
+  scene: [Boot, Preloader, MainGame],
 };
 
 const StartGame = (parent: string) => {
