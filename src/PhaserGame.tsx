@@ -56,3 +56,11 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(
     return <div id="game-container"></div>;
   }
 );
+
+// HMR cleanup outside the component
+if (import.meta.hot) {
+  import.meta.hot.accept();
+  import.meta.hot.dispose(() => {
+    window.location.reload();
+  });
+}
