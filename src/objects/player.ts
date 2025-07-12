@@ -1,4 +1,7 @@
+import { KeyboardInputComponent } from "../components/input/keyboard-input-component";
+
 export class Player extends Phaser.GameObjects.Container {
+  #keyboardInputComponent: KeyboardInputComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
   #shipEngineThrusterSprite: Phaser.GameObjects.Sprite;
@@ -21,5 +24,22 @@ export class Player extends Phaser.GameObjects.Container {
       this.#shipEngineSprite,
       this.#shipSprite,
     ]);
+
+    this.#keyboardInputComponent = new KeyboardInputComponent(this.scene);
+
+    this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
+    this.once(
+      Phaser.GameObjects.Events.DESTROY,
+      () => {
+        this.scene.events.off(Phaser.Scenes.Events.UPDATE, this.update, this);
+      },
+      this
+    );
+  }
+
+  update(ts: number, dt: number): void {
+    // console.log(ts, dt);
+    this.#keyboardInputComponent.update();
+    // console.log(this.#keyboardInputComponent.downIsDown);
   }
 }
