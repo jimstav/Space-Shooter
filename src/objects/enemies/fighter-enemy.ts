@@ -1,9 +1,9 @@
-import { BotScoutInputComponent } from "../../components/input/bot-scout-input-component";
+import { BotFighterInputComponent } from "../../components/input/bot-fighter-input-component";
 import { VerticalMovementComponent } from "../../components/movement/vertical-movement-component";
 import * as CONFIG from "../../config";
 
 export class FighterEnemy extends Phaser.GameObjects.Container {
-  #inputComponent: BotScoutInputComponent;
+  #inputComponent: BotFighterInputComponent;
   #verticalMovementComponent: VerticalMovementComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
@@ -25,7 +25,7 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
     this.#shipEngineSprite.play("fighter_engine");
     this.add([this.#shipEngineSprite, this.#shipSprite]);
 
-    this.#inputComponent = new BotScoutInputComponent();
+    this.#inputComponent = new BotFighterInputComponent();
     this.#verticalMovementComponent = new VerticalMovementComponent(
       this,
       this.#inputComponent,
