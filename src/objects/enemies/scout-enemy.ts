@@ -1,9 +1,11 @@
 import { BotScoutInputComponent } from "../../components/input/bot-scout-input-component";
+import { HorizontalMovementComponent } from "../../components/movement/horizontal-movement-component";
 import { VerticalMovementComponent } from "../../components/movement/vertical-movement-component";
 import * as CONFIG from "../../config";
 
 export class ScoutEnemy extends Phaser.GameObjects.Container {
   #inputComponent: BotScoutInputComponent;
+  #horizontalMovementComponent: HorizontalMovementComponent;
   #verticalMovementComponent: VerticalMovementComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
@@ -25,7 +27,12 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
     this.#shipEngineSprite.play("scout_engine");
     this.add([this.#shipEngineSprite, this.#shipSprite]);
 
-    this.#inputComponent = new BotScoutInputComponent();
+    this.#inputComponent = new BotScoutInputComponent(this);
+    this.#horizontalMovementComponent = new HorizontalMovementComponent(
+      this,
+      this.#inputComponent,
+      CONFIG.ENEMY_SCOUT_MOVEMENT_HORIZONTAL_VELOCITY
+    );
     this.#verticalMovementComponent = new VerticalMovementComponent(
       this,
       this.#inputComponent,
@@ -44,6 +51,7 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
 
   update(ts: number, dt: number): void {
     this.#inputComponent.update();
+    this.#horizontalMovementComponent.update();
     this.#verticalMovementComponent.update();
   }
 }
