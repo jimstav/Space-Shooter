@@ -48,7 +48,11 @@ export class Player extends Phaser.GameObjects.Container {
     this.#weaponComponent = new WeaponComponent(
       this,
       this.#keyboardInputComponent,
-      { maxCount: CONFIG.PLAYER_BULLET_MAX_COUNT }
+      {
+        interval: CONFIG.PLAYER_BULLET_INTERVAL,
+        maxCount: CONFIG.PLAYER_BULLET_MAX_COUNT,
+        yOffset: -20,
+      }
     );
 
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
@@ -64,5 +68,6 @@ export class Player extends Phaser.GameObjects.Container {
   update(ts: number, dt: number): void {
     this.#keyboardInputComponent.update();
     this.#horizontalMovementComponent.update();
+    this.#weaponComponent.update(dt);
   }
 }
