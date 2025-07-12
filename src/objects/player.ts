@@ -1,9 +1,11 @@
 import { KeyboardInputComponent } from "../components/input/keyboard-input-component";
 import { HorizontalMovementComponent } from "../components/movement/horizontal-movement-component";
+import { WeaponComponent } from "../components/weapon/weapon-component";
 import * as CONFIG from "../config";
 
 export class Player extends Phaser.GameObjects.Container {
   #keyboardInputComponent: KeyboardInputComponent;
+  #weaponComponent: WeaponComponent;
   #horizontalMovementComponent: HorizontalMovementComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
@@ -41,6 +43,12 @@ export class Player extends Phaser.GameObjects.Container {
       this,
       this.#keyboardInputComponent,
       CONFIG.PLAYER_MOVEMENT_HORIZONTAL_VELOCITY
+    );
+
+    this.#weaponComponent = new WeaponComponent(
+      this,
+      this.#keyboardInputComponent,
+      { maxCount: CONFIG.PLAYER_BULLET_MAX_COUNT }
     );
 
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
