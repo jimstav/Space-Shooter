@@ -1,10 +1,12 @@
 import { KeyboardInputComponent } from "../components/input/keyboard-input-component";
 import { HorizontalMovementComponent } from "../components/movement/horizontal-movement-component";
+import { VerticalMovementComponent } from "../components/movement/vertical-movement-component";
 import * as CONFIG from "../config";
 
 export class Player extends Phaser.GameObjects.Container {
   #keyboardInputComponent: KeyboardInputComponent;
   #horizontalMovementComponent: HorizontalMovementComponent;
+  #verticalMovementComponent: VerticalMovementComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
   #shipEngineThrusterSprite: Phaser.GameObjects.Sprite;
@@ -42,6 +44,11 @@ export class Player extends Phaser.GameObjects.Container {
       this.#keyboardInputComponent,
       CONFIG.PLAYER_MOVEMENT_HORIZONTAL_VELOCITY
     );
+    this.#verticalMovementComponent = new VerticalMovementComponent(
+      this,
+      this.#keyboardInputComponent,
+      CONFIG.PLAYER_MOVEMENT_HORIZONTAL_VELOCITY
+    );
 
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
     this.once(
@@ -56,5 +63,6 @@ export class Player extends Phaser.GameObjects.Container {
   update(ts: number, dt: number): void {
     this.#keyboardInputComponent.update();
     this.#horizontalMovementComponent.update();
+    this.#verticalMovementComponent.update();
   }
 }
