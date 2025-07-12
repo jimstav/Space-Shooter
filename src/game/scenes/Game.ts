@@ -1,3 +1,4 @@
+import { FighterEnemy } from "../../objects/enemies/fighter-enemy";
 import { ScoutEnemy } from "../../objects/enemies/scout-enemy";
 import { Player } from "../../objects/player";
 import { EventBus } from "../EventBus";
@@ -10,7 +11,8 @@ export class Game extends Scene {
 
   create() {
     const player = new Player(this);
-    const enemy = new ScoutEnemy(this, this.scale.width / 2, 20);
+    const scoutEnemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
+    const fighterEnemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
 
     EventBus.emit("current-scene-ready", this);
   }
