@@ -1,9 +1,11 @@
 import { BotFighterInputComponent } from "../../components/input/bot-fighter-input-component";
 import { VerticalMovementComponent } from "../../components/movement/vertical-movement-component";
+import { WeaponComponent } from "../../components/weapon/weapon-component";
 import * as CONFIG from "../../config";
 
 export class FighterEnemy extends Phaser.GameObjects.Container {
   #inputComponent: BotFighterInputComponent;
+  #weaponComponent: WeaponComponent;
   #verticalMovementComponent: VerticalMovementComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
@@ -32,6 +34,15 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
       CONFIG.ENEMY_FIGHTER_MOVEMENT_VERTICAL_VELOCITY
     );
 
+    this.#weaponComponent = new WeaponComponent(this, this.#inputComponent, {
+      speed: CONFIG.ENEMY_FIGHTER_BULLET_SPEED,
+      interval: CONFIG.ENEMY_FIGHTER_BULLET_INTERVAL,
+      lifespan: CONFIG.ENEMY_FIGHTER_BULLET_LIFESPAN,
+      maxCount: CONFIG.ENEMY_FIGHTER_BULLET_MAX_COUNT,
+      yOffset: 10,
+      flipY: true,
+    });
+
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
     this.once(
       Phaser.GameObjects.Events.DESTROY,
@@ -45,5 +56,6 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
   update(ts: number, dt: number): void {
     this.#inputComponent.update();
     this.#verticalMovementComponent.update();
+    this.#weaponComponent.update(dt);
   }
 }
