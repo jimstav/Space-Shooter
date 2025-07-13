@@ -18,7 +18,11 @@ export class Game extends Scene {
       player,
       fighterEnemy,
       (playerGameObject, enemyGameObject) => {
-        console.log("collided with enemy");
+        if (!(playerGameObject instanceof Player)) return;
+        if (!(enemyGameObject instanceof FighterEnemy)) return;
+
+        playerGameObject.colliderComponent.collideWithEnemyShip();
+        enemyGameObject.colliderComponent.collideWithEnemyShip();
       }
     );
 

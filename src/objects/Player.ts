@@ -92,6 +92,15 @@ export class Player extends Phaser.GameObjects.Container {
   }
 
   update(ts: number, dt: number): void {
+    if (!this.active) {
+      return;
+    }
+
+    if (this.#healthComponent.isDead) {
+      this.setActive(false);
+      this.setVisible(false);
+    }
+
     this.#keyboardInputComponent.update();
     this.#horizontalMovementComponent.update();
     this.#weaponComponent.update(dt);

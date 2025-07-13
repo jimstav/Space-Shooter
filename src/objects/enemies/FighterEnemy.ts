@@ -77,6 +77,15 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
   }
 
   update(ts: number, dt: number): void {
+    if (!this.active) {
+      return;
+    }
+
+    if (this.#healthComponent.isDead) {
+      this.setActive(false);
+      this.setVisible(false);
+    }
+
     this.#inputComponent.update();
     this.#verticalMovementComponent.update();
     this.#weaponComponent.update(dt);
