@@ -103,6 +103,9 @@ export class Player extends Phaser.GameObjects.Container {
       return;
     }
 
+    this.#shipSprite.setFrame(
+      (CONFIG.PLAYER_HEALTH - this.#healthComponent.life).toString(10)
+    );
     this.#keyboardInputComponent.update();
     this.#horizontalMovementComponent.update();
     this.#weaponComponent.update(dt);

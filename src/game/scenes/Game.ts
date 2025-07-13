@@ -11,8 +11,8 @@ export class Game extends Scene {
 
   create() {
     const player = new Player(this);
-    const enemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
-    // const enemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
+    // const enemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
+    const enemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
 
     this.physics.add.overlap(
       player,
