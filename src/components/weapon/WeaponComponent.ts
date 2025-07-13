@@ -103,4 +103,8 @@ export class WeaponComponent {
         }
       });
   }
+
+  destroyBullet(bullet: Phaser.Physics.Arcade.Sprite) {
+    bullet.setState(0);
+  }
 }

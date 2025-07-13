@@ -11,34 +11,54 @@ export class Game extends Scene {
 
   create() {
     const player = new Player(this);
-    const scoutEnemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
-    const fighterEnemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
+    const enemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
+    // const enemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
 
     this.physics.add.overlap(
       player,
-      fighterEnemy,
+      enemy,
       (playerGameObject, enemyGameObject) => {
         if (!(playerGameObject instanceof Player)) return;
-        if (!(enemyGameObject instanceof FighterEnemy)) return;
+        if (
+          !(enemyGameObject instanceof FighterEnemy) &&
+          !(enemyGameObject instanceof ScoutEnemy)
+        )
+          return;
 
         playerGameObject.colliderComponent.collideWithEnemyShip();
         enemyGameObject.colliderComponent.collideWithEnemyShip();
       }
     );
 
-    this.physics.add.overlap(
-      player,
-      fighterEnemy.weaponGameObjectGroup,
-      (playerGameObject, projectileGameObject) => {
-        console.log(playerGameObject, projectileGameObject);
-      }
-    );
+    if (enemy instanceof FighterEnemy) {
+      this.physics.add.overlap(
+        player,
+        enemy.weaponGameObjectGroup,
+        (playerGameObject, projectileGameObject) => {
+          if (!(playerGameObject instanceof Player)) return;
+          if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
+            return;
+
+          enemy.weaponComponent.destroyBullet(projectileGameObject);
+          playerGameObject.colliderComponent.collideWithEnemyProjectile();
+        }
+      );
+    }
 
     this.physics.add.overlap(
-      fighterEnemy,
+      enemy,
       player.weaponGameObjectGroup,
-      (fighterEnemyGameObject, projectileGameObject) => {
-        console.log(fighterEnemyGameObject, projectileGameObject);
+      (enemyGameObject, projectileGameObject) => {
+        if (
+          !(enemyGameObject instanceof FighterEnemy) &&
+          !(enemyGameObject instanceof ScoutEnemy)
+        )
+          return;
+        if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
+          return;
+
+        player.weaponComponent.destroyBullet(projectileGameObject);
+        enemyGameObject.colliderComponent.collideWithEnemyProjectile();
       }
     );
 
