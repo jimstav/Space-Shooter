@@ -1,3 +1,5 @@
+import { ColliderComponent } from "../../components/collider/ColliderComponent";
+import { HealthComponent } from "../../components/health/HealthComponent";
 import { BotFighterInputComponent } from "../../components/input/BotFighterInputComponent";
 import { VerticalMovementComponent } from "../../components/movement/VerticalMovementComponent";
 import { WeaponComponent } from "../../components/weapon/WeaponComponent";
@@ -7,6 +9,8 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
   #inputComponent: BotFighterInputComponent;
   #weaponComponent: WeaponComponent;
   #verticalMovementComponent: VerticalMovementComponent;
+  #healthComponent: HealthComponent;
+  #colliderComponent: ColliderComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
 
@@ -43,6 +47,9 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
       flipY: true,
     });
 
+    this.#healthComponent = new HealthComponent(CONFIG.ENEMY_FIGHTER_HEALTH);
+    this.#colliderComponent = new ColliderComponent(this.#healthComponent);
+
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
     this.once(
       Phaser.GameObjects.Events.DESTROY,
@@ -59,6 +66,14 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
 
   get weaponComponent() {
     return this.#weaponComponent;
+  }
+
+  get colliderComponent() {
+    return this.#colliderComponent;
+  }
+
+  get healthComponent() {
+    return this.#healthComponent;
   }
 
   update(ts: number, dt: number): void {

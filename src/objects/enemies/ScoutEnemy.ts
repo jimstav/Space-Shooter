@@ -1,3 +1,5 @@
+import { ColliderComponent } from "../../components/collider/ColliderComponent";
+import { HealthComponent } from "../../components/health/HealthComponent";
 import { BotScoutInputComponent } from "../../components/input/BotScoutInputComponent";
 import { HorizontalMovementComponent } from "../../components/movement/HorizontalMovementComponent";
 import { VerticalMovementComponent } from "../../components/movement/VerticalMovementComponent";
@@ -7,6 +9,8 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
   #inputComponent: BotScoutInputComponent;
   #horizontalMovementComponent: HorizontalMovementComponent;
   #verticalMovementComponent: VerticalMovementComponent;
+  #healthComponent: HealthComponent;
+  #colliderComponent: ColliderComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
 
@@ -38,6 +42,8 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
       this.#inputComponent,
       CONFIG.ENEMY_SCOUT_MOVEMENT_VERTICAL_VELOCITY
     );
+    this.#healthComponent = new HealthComponent(CONFIG.ENEMY_SCOUT_HEALTH);
+    this.#colliderComponent = new ColliderComponent(this.#healthComponent);
 
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
     this.once(
@@ -47,6 +53,14 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
       },
       this
     );
+  }
+
+  get colliderComponent() {
+    return this.#colliderComponent;
+  }
+
+  get healthComponent() {
+    return this.#healthComponent;
   }
 
   update(ts: number, dt: number): void {
