@@ -49,9 +49,12 @@ export class Player extends Phaser.GameObjects.Container {
       this,
       this.#keyboardInputComponent,
       {
+        speed: CONFIG.PLAYER_BULLET_SPEED,
         interval: CONFIG.PLAYER_BULLET_INTERVAL,
+        lifespan: CONFIG.PLAYER_BULLET_LIFESPAN,
         maxCount: CONFIG.PLAYER_BULLET_MAX_COUNT,
         yOffset: -20,
+        flipY: false,
       }
     );
 

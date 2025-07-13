@@ -1,9 +1,12 @@
 import { InputComponent } from "../input/input-component";
 
 interface BulletConfig {
+  speed: number;
   interval: number;
+  lifespan: number;
   maxCount: number;
   yOffset: number;
+  flipY: boolean;
 }
 
 export class WeaponComponent {
@@ -33,6 +36,23 @@ export class WeaponComponent {
       active: false,
       visible: false,
     });
+
+    this.#gameObject.scene.physics.world.on(
+      Phaser.Physics.Arcade.Events.WORLD_STEP,
+      this.worldStep,
+      this
+    );
+    this.#gameObject.once(
+      Phaser.GameObjects.Events.DESTROY,
+      () => {
+        this.#gameObject.scene.physics.world.off(
+          Phaser.Physics.Arcade.Events.WORLD_STEP,
+          this.worldStep,
+          this
+        );
+      },
+      this
+    );
   }
 
   update(dt: number) {
@@ -50,8 +70,29 @@ export class WeaponComponent {
       const x = this.#gameObject.x;
       const y = this.#gameObject.y + this.#bulletConfig.yOffset;
       bullet.enableBody(true, x, y, true, true);
+      bullet.body!.velocity.y -= this.#bulletConfig.speed;
+      bullet.setState(this.#bulletConfig.lifespan);
 
       this.#fireBulletInterval = this.#bulletConfig.interval;
     }
+  }
+
+  worldStep(delta: number) {
+    this.#bulletGroup
+      .getChildren()
+      .forEach((bullet: Phaser.GameObjects.GameObject) => {
+        if (
+          !bullet.active ||
+          !(bullet instanceof Phaser.Physics.Arcade.Sprite)
+        ) {
+          return;
+        }
+
+        if (typeof bullet.state !== "number") return;
+        bullet.state -= delta;
+        if (bullet.state <= 0) {
+          bullet.disableBody(true, true);
+        }
+      });
   }
 }
