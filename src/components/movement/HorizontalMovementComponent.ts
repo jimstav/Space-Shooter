@@ -1,7 +1,7 @@
 import * as CONFIG from "../../config";
-import { InputComponent } from "../input/input-component";
+import { InputComponent } from "../input/InputComponent";
 
-export class VerticalMovementComponent {
+export class HorizontalMovementComponent {
   #gameObject: Phaser.GameObjects.GameObject;
   #inputComponent: InputComponent;
   #body: Phaser.Physics.Arcade.Body;
@@ -22,24 +22,24 @@ export class VerticalMovementComponent {
     this.#body = this.#gameObject.body;
 
     this.#gameObject.body.setDamping(true);
-    this.#gameObject.body.setDrag(CONFIG.COMPONENT_MOVEMENT_VERTICAL_DRAG);
+    this.#gameObject.body.setDrag(CONFIG.COMPONENT_MOVEMENT_HORIZONTAL_DRAG);
     this.#gameObject.body.setMaxVelocity(
-      CONFIG.COMPONENT_MOVEMENT_VERTICAL_MAX_VELOCITY
+      CONFIG.COMPONENT_MOVEMENT_HORIZONTAL_MAX_VELOCITY
     );
   }
 
   reset() {
-    this.#body.velocity.y = 0;
-    this.#body.setAccelerationY(0);
+    this.#body.velocity.x = 0;
+    this.#body.setAccelerationX(0);
   }
 
   update() {
-    if (this.#inputComponent.upIsDown) {
-      this.#body.velocity.y -= this.#velocity;
-    } else if (this.#inputComponent.downIsDown) {
-      this.#body.velocity.y += this.#velocity;
+    if (this.#inputComponent.leftIsDown) {
+      this.#body.velocity.x -= this.#velocity;
+    } else if (this.#inputComponent.rightIsDown) {
+      this.#body.velocity.x += this.#velocity;
     } else {
-      this.#body.setAccelerationY(0);
+      this.#body.setAccelerationX(0);
     }
   }
 }

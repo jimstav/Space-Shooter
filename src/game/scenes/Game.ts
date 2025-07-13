@@ -1,6 +1,6 @@
-import { FighterEnemy } from "../../objects/enemies/fighter-enemy";
-import { ScoutEnemy } from "../../objects/enemies/scout-enemy";
-import { Player } from "../../objects/player";
+import { FighterEnemy } from "../../objects/enemies/FighterEnemy";
+import { ScoutEnemy } from "../../objects/enemies/ScoutEnemy";
+import { Player } from "../../objects/Player";
 import { EventBus } from "../EventBus";
 import { Scene } from "phaser";
 

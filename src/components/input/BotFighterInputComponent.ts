@@ -1,4 +1,4 @@
-import { InputComponent } from "./input-component";
+import { InputComponent } from "./InputComponent";
 
 export class BotFighterInputComponent extends InputComponent {
   constructor() {

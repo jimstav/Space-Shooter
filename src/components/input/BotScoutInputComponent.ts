@@ -1,4 +1,4 @@
-import { InputComponent } from "./input-component";
+import { InputComponent } from "./InputComponent";
 import * as CONFIG from "../../config";
 
 export class BotScoutInputComponent extends InputComponent {

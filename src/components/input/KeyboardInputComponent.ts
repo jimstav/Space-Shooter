@@ -1,4 +1,4 @@
-import { InputComponent } from "./input-component";
+import { InputComponent } from "./InputComponent";
 
 export class KeyboardInputComponent extends InputComponent {
   #cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;

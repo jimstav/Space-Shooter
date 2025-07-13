@@ -1,6 +1,6 @@
-import { KeyboardInputComponent } from "../components/input/keyboard-input-component";
-import { HorizontalMovementComponent } from "../components/movement/horizontal-movement-component";
-import { WeaponComponent } from "../components/weapon/weapon-component";
+import { KeyboardInputComponent } from "../components/input/KeyboardInputComponent";
+import { HorizontalMovementComponent } from "../components/movement/HorizontalMovementComponent";
+import { WeaponComponent } from "../components/weapon/WeaponComponent";
 import * as CONFIG from "../config";
 
 export class Player extends Phaser.GameObjects.Container {

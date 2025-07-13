@@ -1,6 +1,6 @@
-import { BotFighterInputComponent } from "../../components/input/bot-fighter-input-component";
-import { VerticalMovementComponent } from "../../components/movement/vertical-movement-component";
-import { WeaponComponent } from "../../components/weapon/weapon-component";
+import { BotFighterInputComponent } from "../../components/input/BotFighterInputComponent";
+import { VerticalMovementComponent } from "../../components/movement/VerticalMovementComponent";
+import { WeaponComponent } from "../../components/weapon/WeaponComponent";
 import * as CONFIG from "../../config";
 
 export class FighterEnemy extends Phaser.GameObjects.Container {

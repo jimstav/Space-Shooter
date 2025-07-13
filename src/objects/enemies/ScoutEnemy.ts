@@ -1,6 +1,6 @@
-import { BotScoutInputComponent } from "../../components/input/bot-scout-input-component";
-import { HorizontalMovementComponent } from "../../components/movement/horizontal-movement-component";
-import { VerticalMovementComponent } from "../../components/movement/vertical-movement-component";
+import { BotScoutInputComponent } from "../../components/input/BotScoutInputComponent";
+import { HorizontalMovementComponent } from "../../components/movement/HorizontalMovementComponent";
+import { VerticalMovementComponent } from "../../components/movement/VerticalMovementComponent";
 import * as CONFIG from "../../config";
 
 export class ScoutEnemy extends Phaser.GameObjects.Container {
