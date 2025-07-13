@@ -97,12 +97,22 @@ export class Player extends Phaser.GameObjects.Container {
     }
 
     if (this.#healthComponent.isDead) {
-      this.setActive(false);
-      this.setVisible(false);
+      this.#hide();
+      this.setVisible(true);
+      this.#shipSprite.play({ key: "explosion" });
+      return;
     }
 
     this.#keyboardInputComponent.update();
     this.#horizontalMovementComponent.update();
     this.#weaponComponent.update(dt);
+  }
+
+  #hide() {
+    this.setActive(false);
+    this.setVisible(false);
+    this.#shipEngineSprite.setVisible(false);
+    this.#shipEngineThrusterSprite.setVisible(false);
+    this.#keyboardInputComponent.lockInput = true;
   }
 }
