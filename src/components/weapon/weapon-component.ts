@@ -55,6 +55,10 @@ export class WeaponComponent {
     );
   }
 
+  get bulletGroup() {
+    return this.#bulletGroup;
+  }
+
   update(dt: number) {
     this.#fireBulletInterval -= dt;
     if (this.#fireBulletInterval > 0) {
@@ -72,6 +76,10 @@ export class WeaponComponent {
       bullet.enableBody(true, x, y, true, true);
       bullet.body!.velocity.y -= this.#bulletConfig.speed;
       bullet.setState(this.#bulletConfig.lifespan);
+      bullet.play("bullet");
+      bullet.setScale(0.8);
+      bullet.body?.setSize(14, 18);
+      bullet.setFlipY(this.#bulletConfig.flipY);
 
       this.#fireBulletInterval = this.#bulletConfig.interval;
     }
