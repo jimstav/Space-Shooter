@@ -14,6 +14,30 @@ export class Game extends Scene {
     const scoutEnemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
     const fighterEnemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
 
+    this.physics.add.overlap(
+      player,
+      fighterEnemy,
+      (playerGameObject, enemyGameObject) => {
+        console.log("collided with enemy");
+      }
+    );
+
+    this.physics.add.overlap(
+      player,
+      fighterEnemy.weaponGameObjectGroup,
+      (playerGameObject, projectileGameObject) => {
+        console.log(playerGameObject, projectileGameObject);
+      }
+    );
+
+    this.physics.add.overlap(
+      fighterEnemy,
+      player.weaponGameObjectGroup,
+      (fighterEnemyGameObject, projectileGameObject) => {
+        console.log(fighterEnemyGameObject, projectileGameObject);
+      }
+    );
+
     EventBus.emit("current-scene-ready", this);
   }
 

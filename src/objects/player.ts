@@ -68,6 +68,14 @@ export class Player extends Phaser.GameObjects.Container {
     );
   }
 
+  get weaponGameObjectGroup() {
+    return this.#weaponComponent.bulletGroup;
+  }
+
+  get weaponComponent() {
+    return this.#weaponComponent;
+  }
+
   update(ts: number, dt: number): void {
     this.#keyboardInputComponent.update();
     this.#horizontalMovementComponent.update();
