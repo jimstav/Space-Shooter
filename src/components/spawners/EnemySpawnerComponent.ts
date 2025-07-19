@@ -48,6 +48,10 @@ export class EnemySpawnerComponent {
     );
   }
 
+  get phaserGroup() {
+    return this.#group;
+  }
+
   update(ts: number, dt: number): void {
     this.#spawnAt -= dt;
     if (this.#spawnAt > 0) {
@@ -55,7 +59,8 @@ export class EnemySpawnerComponent {
     }
 
     const x = Phaser.Math.RND.between(30, this.#scene.scale.width - 30);
-    const enemy = this.#group.get(x, -20);
+    const enemy: ScoutEnemy = this.#group.get(x, -20);
+    enemy.reset();
     this.#spawnAt = this.#spawnInterval;
   }
 

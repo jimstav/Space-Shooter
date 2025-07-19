@@ -63,6 +63,15 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
     return this.#healthComponent;
   }
 
+  reset() {
+    this.setActive(true);
+    this.setVisible(true);
+    this.#healthComponent.reset();
+    this.#inputComponent.startX = this.x;
+    this.#verticalMovementComponent.reset();
+    this.#horizontalMovementComponent.reset();
+  }
+
   update(ts: number, dt: number): void {
     if (!this.active) {
       return;
