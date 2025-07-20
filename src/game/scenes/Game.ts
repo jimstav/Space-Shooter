@@ -5,7 +5,10 @@ import { Player } from "../../objects/Player";
 import { EventBus } from "../EventBus";
 import { Scene } from "phaser";
 import * as CONFIG from "../../config";
-import { EventBusComponent } from "../../components/events/EventBusComponent";
+import {
+  CUSTOM_EVENTS,
+  EventBusComponent,
+} from "../../components/events/EventBusComponent";
 
 export class Game extends Scene {
   constructor() {
@@ -59,20 +62,25 @@ export class Game extends Scene {
       }
     );
 
-    // if (enemy instanceof FighterEnemy) {
-    //   this.physics.add.overlap(
-    //     player,
-    //     enemy.weaponGameObjectGroup,
-    //     (playerGameObject, projectileGameObject) => {
-    //       if (!(playerGameObject instanceof Player)) return;
-    //       if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
-    //         return;
+    eventBusComponent.on(
+      CUSTOM_EVENTS.ENEMY_INIT,
+      (gameObject: Phaser.GameObjects.GameObject) => {
+        if (!(gameObject instanceof FighterEnemy)) return;
 
-    //       enemy.weaponComponent.destroyBullet(projectileGameObject);
-    //       playerGameObject.colliderComponent.collideWithEnemyProjectile();
-    //     }
-    //   );
-    // }
+        this.physics.add.overlap(
+          player,
+          gameObject.weaponGameObjectGroup,
+          (playerGameObject, projectileGameObject) => {
+            if (!(playerGameObject instanceof Player)) return;
+            if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
+              return;
+
+            gameObject.weaponComponent.destroyBullet(projectileGameObject);
+            playerGameObject.colliderComponent.collideWithEnemyProjectile();
+          }
+        );
+      }
+    );
 
     this.physics.add.overlap(
       scoutSpawner.phaserGroup,
