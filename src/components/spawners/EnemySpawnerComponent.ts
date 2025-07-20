@@ -26,6 +26,7 @@ export class EnemySpawnerComponent {
       classType: enemyClass,
       runChildUpdate: true,
       createCallback: (enemy) => {
+        console.log(enemy);
         if (!(enemy instanceof FighterEnemy) && !(enemy instanceof ScoutEnemy))
           return;
         enemy.init(eventBusComponent);
@@ -71,5 +72,18 @@ export class EnemySpawnerComponent {
     this.#spawnAt = this.#spawnInterval;
   }
 
-  worldStep(delta: number) {}
+  worldStep(delta: number) {
+    this.#group
+      .getChildren()
+      .forEach((enemy: Phaser.GameObjects.GameObject) => {
+        if (!enemy.active) return;
+        if (!(enemy instanceof FighterEnemy) && !(enemy instanceof ScoutEnemy))
+          return;
+
+        if (enemy.y > this.#scene.scale.height + 50) {
+          enemy.setActive(false);
+          enemy.setVisible(false);
+        }
+      });
+  }
 }
