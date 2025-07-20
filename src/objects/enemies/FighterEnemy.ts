@@ -31,25 +31,6 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
     this.#shipEngineSprite.play("fighter_engine");
     this.add([this.#shipEngineSprite, this.#shipSprite]);
 
-    this.#inputComponent = new BotFighterInputComponent();
-    this.#verticalMovementComponent = new VerticalMovementComponent(
-      this,
-      this.#inputComponent,
-      CONFIG.ENEMY_FIGHTER_MOVEMENT_VERTICAL_VELOCITY
-    );
-
-    this.#weaponComponent = new WeaponComponent(this, this.#inputComponent, {
-      speed: CONFIG.ENEMY_FIGHTER_BULLET_SPEED,
-      interval: CONFIG.ENEMY_FIGHTER_BULLET_INTERVAL,
-      lifespan: CONFIG.ENEMY_FIGHTER_BULLET_LIFESPAN,
-      maxCount: CONFIG.ENEMY_FIGHTER_BULLET_MAX_COUNT,
-      yOffset: 10,
-      flipY: true,
-    });
-
-    this.#healthComponent = new HealthComponent(CONFIG.ENEMY_FIGHTER_HEALTH);
-    this.#colliderComponent = new ColliderComponent(this.#healthComponent);
-
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
     this.once(
       Phaser.GameObjects.Events.DESTROY,
@@ -74,6 +55,34 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
 
   get healthComponent() {
     return this.#healthComponent;
+  }
+
+  init() {
+    this.#inputComponent = new BotFighterInputComponent();
+    this.#verticalMovementComponent = new VerticalMovementComponent(
+      this,
+      this.#inputComponent,
+      CONFIG.ENEMY_FIGHTER_MOVEMENT_VERTICAL_VELOCITY
+    );
+
+    this.#weaponComponent = new WeaponComponent(this, this.#inputComponent, {
+      speed: CONFIG.ENEMY_FIGHTER_BULLET_SPEED,
+      interval: CONFIG.ENEMY_FIGHTER_BULLET_INTERVAL,
+      lifespan: CONFIG.ENEMY_FIGHTER_BULLET_LIFESPAN,
+      maxCount: CONFIG.ENEMY_FIGHTER_BULLET_MAX_COUNT,
+      yOffset: 10,
+      flipY: true,
+    });
+
+    this.#healthComponent = new HealthComponent(CONFIG.ENEMY_FIGHTER_HEALTH);
+    this.#colliderComponent = new ColliderComponent(this.#healthComponent);
+  }
+
+  reset() {
+    this.setActive(true);
+    this.setVisible(true);
+    this.#healthComponent.reset();
+    this.#verticalMovementComponent.reset();
   }
 
   update(ts: number, dt: number): void {

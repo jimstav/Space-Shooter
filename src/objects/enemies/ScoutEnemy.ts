@@ -31,20 +31,6 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
     this.#shipEngineSprite.play("scout_engine");
     this.add([this.#shipEngineSprite, this.#shipSprite]);
 
-    this.#inputComponent = new BotScoutInputComponent(this);
-    this.#horizontalMovementComponent = new HorizontalMovementComponent(
-      this,
-      this.#inputComponent,
-      CONFIG.ENEMY_SCOUT_MOVEMENT_HORIZONTAL_VELOCITY
-    );
-    this.#verticalMovementComponent = new VerticalMovementComponent(
-      this,
-      this.#inputComponent,
-      CONFIG.ENEMY_SCOUT_MOVEMENT_VERTICAL_VELOCITY
-    );
-    this.#healthComponent = new HealthComponent(CONFIG.ENEMY_SCOUT_HEALTH);
-    this.#colliderComponent = new ColliderComponent(this.#healthComponent);
-
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
     this.once(
       Phaser.GameObjects.Events.DESTROY,
@@ -61,6 +47,22 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
 
   get healthComponent() {
     return this.#healthComponent;
+  }
+
+  init() {
+    this.#inputComponent = new BotScoutInputComponent(this);
+    this.#horizontalMovementComponent = new HorizontalMovementComponent(
+      this,
+      this.#inputComponent,
+      CONFIG.ENEMY_SCOUT_MOVEMENT_HORIZONTAL_VELOCITY
+    );
+    this.#verticalMovementComponent = new VerticalMovementComponent(
+      this,
+      this.#inputComponent,
+      CONFIG.ENEMY_SCOUT_MOVEMENT_VERTICAL_VELOCITY
+    );
+    this.#healthComponent = new HealthComponent(CONFIG.ENEMY_SCOUT_HEALTH);
+    this.#colliderComponent = new ColliderComponent(this.#healthComponent);
   }
 
   reset() {

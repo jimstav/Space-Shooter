@@ -17,6 +17,10 @@ export class Game extends Scene {
       interval: CONFIG.ENEMY_SCOUT_GROUP_SPAWN_INTERVAL,
       spawnAt: CONFIG.ENEMY_SCOUT_GROUP_SPAWN_START,
     });
+    const fighterSpawner = new EnemySpawnerComponent(this, FighterEnemy, {
+      interval: CONFIG.ENEMY_FIGHTER_GROUP_SPAWN_INTERVAL,
+      spawnAt: CONFIG.ENEMY_FIGHTER_GROUP_SPAWN_START,
+    });
     // const enemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
     // const enemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
 
@@ -25,11 +29,18 @@ export class Game extends Scene {
       scoutSpawner.phaserGroup,
       (playerGameObject, enemyGameObject) => {
         if (!(playerGameObject instanceof Player)) return;
-        if (
-          !(enemyGameObject instanceof FighterEnemy) &&
-          !(enemyGameObject instanceof ScoutEnemy)
-        )
-          return;
+        if (!(enemyGameObject instanceof ScoutEnemy)) return;
+
+        playerGameObject.colliderComponent.collideWithEnemyShip();
+        enemyGameObject.colliderComponent.collideWithEnemyShip();
+      }
+    );
+    this.physics.add.overlap(
+      player,
+      fighterSpawner.phaserGroup,
+      (playerGameObject, enemyGameObject) => {
+        if (!(playerGameObject instanceof Player)) return;
+        if (!(enemyGameObject instanceof FighterEnemy)) return;
 
         playerGameObject.colliderComponent.collideWithEnemyShip();
         enemyGameObject.colliderComponent.collideWithEnemyShip();
@@ -55,11 +66,19 @@ export class Game extends Scene {
       scoutSpawner.phaserGroup,
       player.weaponGameObjectGroup,
       (enemyGameObject, projectileGameObject) => {
-        if (
-          !(enemyGameObject instanceof FighterEnemy) &&
-          !(enemyGameObject instanceof ScoutEnemy)
-        )
+        if (!(enemyGameObject instanceof ScoutEnemy)) return;
+        if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
           return;
+
+        player.weaponComponent.destroyBullet(projectileGameObject);
+        enemyGameObject.colliderComponent.collideWithEnemyProjectile();
+      }
+    );
+    this.physics.add.overlap(
+      fighterSpawner.phaserGroup,
+      player.weaponGameObjectGroup,
+      (enemyGameObject, projectileGameObject) => {
+        if (!(enemyGameObject instanceof FighterEnemy)) return;
         if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
           return;
 

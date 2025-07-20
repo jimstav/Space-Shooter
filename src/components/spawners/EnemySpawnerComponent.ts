@@ -23,6 +23,11 @@ export class EnemySpawnerComponent {
       name: `${this.constructor.name}-${Phaser.Math.RND.uuid()}`,
       classType: enemyClass,
       runChildUpdate: true,
+      createCallback: (enemy) => {
+        if (!(enemy instanceof FighterEnemy) && !(enemy instanceof ScoutEnemy))
+          return;
+        enemy.init();
+      },
     });
 
     this.#spawnInterval = spawnConfig.interval;
