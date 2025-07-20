@@ -10,6 +10,7 @@ import { WeaponComponent } from "../../components/weapon/WeaponComponent";
 import * as CONFIG from "../../config";
 
 export class FighterEnemy extends Phaser.GameObjects.Container {
+  #isInitialized: boolean;
   #inputComponent: BotFighterInputComponent;
   #weaponComponent: WeaponComponent;
   #verticalMovementComponent: VerticalMovementComponent;
@@ -22,6 +23,7 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, []);
 
+    this.#isInitialized = false;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
 
@@ -83,6 +85,7 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
     this.#healthComponent = new HealthComponent(CONFIG.ENEMY_FIGHTER_HEALTH);
     this.#colliderComponent = new ColliderComponent(this.#healthComponent);
     this.#eventBusComponent.emit(CUSTOM_EVENTS.ENEMY_INIT, this);
+    this.#isInitialized = true;
   }
 
   reset() {
@@ -93,9 +96,8 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
   }
 
   update(ts: number, dt: number): void {
-    if (!this.active) {
-      return;
-    }
+    if (!this.#isInitialized) return;
+    if (!this.active) return;
 
     if (this.#healthComponent.isDead) {
       this.setActive(false);
