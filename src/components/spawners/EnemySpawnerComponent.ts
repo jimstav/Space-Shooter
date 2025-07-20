@@ -1,5 +1,6 @@
 import { FighterEnemy } from "../../objects/enemies/FighterEnemy";
 import { ScoutEnemy } from "../../objects/enemies/ScoutEnemy";
+import { EventBusComponent } from "../events/EventBusComponent";
 
 interface SpawnConfig {
   interval: number;
@@ -15,7 +16,8 @@ export class EnemySpawnerComponent {
   constructor(
     scene: Phaser.Scene,
     enemyClass: typeof FighterEnemy | typeof ScoutEnemy,
-    spawnConfig: SpawnConfig
+    spawnConfig: SpawnConfig,
+    eventBusComponent: EventBusComponent
   ) {
     this.#scene = scene;
 
@@ -26,7 +28,7 @@ export class EnemySpawnerComponent {
       createCallback: (enemy) => {
         if (!(enemy instanceof FighterEnemy) && !(enemy instanceof ScoutEnemy))
           return;
-        enemy.init();
+        enemy.init(eventBusComponent);
       },
     });
 

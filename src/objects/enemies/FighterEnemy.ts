@@ -1,4 +1,8 @@
 import { ColliderComponent } from "../../components/collider/ColliderComponent";
+import {
+  CUSTOM_EVENTS,
+  EventBusComponent,
+} from "../../components/events/EventBusComponent";
 import { HealthComponent } from "../../components/health/HealthComponent";
 import { BotFighterInputComponent } from "../../components/input/BotFighterInputComponent";
 import { VerticalMovementComponent } from "../../components/movement/VerticalMovementComponent";
@@ -11,6 +15,7 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
   #verticalMovementComponent: VerticalMovementComponent;
   #healthComponent: HealthComponent;
   #colliderComponent: ColliderComponent;
+  #eventBusComponent: EventBusComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
 
@@ -57,7 +62,8 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
     return this.#healthComponent;
   }
 
-  init() {
+  init(eventBusComponent: EventBusComponent) {
+    this.#eventBusComponent = eventBusComponent;
     this.#inputComponent = new BotFighterInputComponent();
     this.#verticalMovementComponent = new VerticalMovementComponent(
       this,
@@ -76,6 +82,7 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
 
     this.#healthComponent = new HealthComponent(CONFIG.ENEMY_FIGHTER_HEALTH);
     this.#colliderComponent = new ColliderComponent(this.#healthComponent);
+    this.#eventBusComponent.emit(CUSTOM_EVENTS.ENEMY_INIT, this);
   }
 
   reset() {

@@ -5,6 +5,7 @@ import { Player } from "../../objects/Player";
 import { EventBus } from "../EventBus";
 import { Scene } from "phaser";
 import * as CONFIG from "../../config";
+import { EventBusComponent } from "../../components/events/EventBusComponent";
 
 export class Game extends Scene {
   constructor() {
@@ -12,15 +13,26 @@ export class Game extends Scene {
   }
 
   create() {
+    const eventBusComponent = new EventBusComponent();
     const player = new Player(this);
-    const scoutSpawner = new EnemySpawnerComponent(this, ScoutEnemy, {
-      interval: CONFIG.ENEMY_SCOUT_GROUP_SPAWN_INTERVAL,
-      spawnAt: CONFIG.ENEMY_SCOUT_GROUP_SPAWN_START,
-    });
-    const fighterSpawner = new EnemySpawnerComponent(this, FighterEnemy, {
-      interval: CONFIG.ENEMY_FIGHTER_GROUP_SPAWN_INTERVAL,
-      spawnAt: CONFIG.ENEMY_FIGHTER_GROUP_SPAWN_START,
-    });
+    const scoutSpawner = new EnemySpawnerComponent(
+      this,
+      ScoutEnemy,
+      {
+        interval: CONFIG.ENEMY_SCOUT_GROUP_SPAWN_INTERVAL,
+        spawnAt: CONFIG.ENEMY_SCOUT_GROUP_SPAWN_START,
+      },
+      eventBusComponent
+    );
+    const fighterSpawner = new EnemySpawnerComponent(
+      this,
+      FighterEnemy,
+      {
+        interval: CONFIG.ENEMY_FIGHTER_GROUP_SPAWN_INTERVAL,
+        spawnAt: CONFIG.ENEMY_FIGHTER_GROUP_SPAWN_START,
+      },
+      eventBusComponent
+    );
     // const enemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
     // const enemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
 

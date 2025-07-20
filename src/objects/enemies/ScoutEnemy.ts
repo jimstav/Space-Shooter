@@ -1,4 +1,8 @@
 import { ColliderComponent } from "../../components/collider/ColliderComponent";
+import {
+  CUSTOM_EVENTS,
+  EventBusComponent,
+} from "../../components/events/EventBusComponent";
 import { HealthComponent } from "../../components/health/HealthComponent";
 import { BotScoutInputComponent } from "../../components/input/BotScoutInputComponent";
 import { HorizontalMovementComponent } from "../../components/movement/HorizontalMovementComponent";
@@ -11,6 +15,7 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
   #verticalMovementComponent: VerticalMovementComponent;
   #healthComponent: HealthComponent;
   #colliderComponent: ColliderComponent;
+  #eventBusComponent: EventBusComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
 
@@ -49,7 +54,8 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
     return this.#healthComponent;
   }
 
-  init() {
+  init(eventBusComponent: EventBusComponent) {
+    this.#eventBusComponent = eventBusComponent;
     this.#inputComponent = new BotScoutInputComponent(this);
     this.#horizontalMovementComponent = new HorizontalMovementComponent(
       this,
@@ -63,6 +69,7 @@ export class ScoutEnemy extends Phaser.GameObjects.Container {
     );
     this.#healthComponent = new HealthComponent(CONFIG.ENEMY_SCOUT_HEALTH);
     this.#colliderComponent = new ColliderComponent(this.#healthComponent);
+    this.#eventBusComponent.emit(CUSTOM_EVENTS.ENEMY_INIT, this);
   }
 
   reset() {
