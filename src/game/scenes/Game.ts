@@ -39,12 +39,14 @@ export class Game extends Scene {
     // const enemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
     // const enemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
 
+    // collisions for player and enemy groups
     this.physics.add.overlap(
       player,
       scoutSpawner.phaserGroup,
       (playerGameObject, enemyGameObject) => {
         if (!(playerGameObject instanceof Player)) return;
         if (!(enemyGameObject instanceof ScoutEnemy)) return;
+        if (!playerGameObject.active || !enemyGameObject.active) return;
 
         playerGameObject.colliderComponent.collideWithEnemyShip();
         enemyGameObject.colliderComponent.collideWithEnemyShip();
@@ -56,6 +58,7 @@ export class Game extends Scene {
       (playerGameObject, enemyGameObject) => {
         if (!(playerGameObject instanceof Player)) return;
         if (!(enemyGameObject instanceof FighterEnemy)) return;
+        if (!playerGameObject.active || !enemyGameObject.active) return;
 
         playerGameObject.colliderComponent.collideWithEnemyShip();
         enemyGameObject.colliderComponent.collideWithEnemyShip();
@@ -74,6 +77,8 @@ export class Game extends Scene {
             if (!(playerGameObject instanceof Player)) return;
             if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
               return;
+            if (!playerGameObject.active || !projectileGameObject.active)
+              return;
 
             gameObject.weaponComponent.destroyBullet(projectileGameObject);
             playerGameObject.colliderComponent.collideWithEnemyProjectile();
@@ -89,6 +94,7 @@ export class Game extends Scene {
         if (!(enemyGameObject instanceof ScoutEnemy)) return;
         if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
           return;
+        if (!enemyGameObject.active || !projectileGameObject.active) return;
 
         player.weaponComponent.destroyBullet(projectileGameObject);
         enemyGameObject.colliderComponent.collideWithEnemyProjectile();
@@ -101,6 +107,7 @@ export class Game extends Scene {
         if (!(enemyGameObject instanceof FighterEnemy)) return;
         if (!(projectileGameObject instanceof Phaser.Physics.Arcade.Sprite))
           return;
+        if (!enemyGameObject.active || !projectileGameObject.active) return;
 
         player.weaponComponent.destroyBullet(projectileGameObject);
         enemyGameObject.colliderComponent.collideWithEnemyProjectile();
