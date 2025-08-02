@@ -9,6 +9,7 @@ import {
   CUSTOM_EVENTS,
   EventBusComponent,
 } from "../../components/events/EventBusComponent";
+import { EnemyDestroyedComponent } from "../../components/spawners/EnemyDestroyedComponent";
 
 export class Game extends Scene {
   constructor() {
@@ -36,8 +37,7 @@ export class Game extends Scene {
       },
       eventBusComponent
     );
-    // const enemy = new ScoutEnemy(this, this.scale.width / 2 - 20, 0);
-    // const enemy = new FighterEnemy(this, this.scale.width / 2 + 20, 0);
+    new EnemyDestroyedComponent(this, eventBusComponent);
 
     // collisions for player and enemy groups
     this.physics.add.overlap(
