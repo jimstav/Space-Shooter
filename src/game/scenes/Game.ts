@@ -10,6 +10,7 @@ import {
   EventBusComponent,
 } from "../../components/events/EventBusComponent";
 import { EnemyDestroyedComponent } from "../../components/spawners/EnemyDestroyedComponent";
+import { Score } from "../../objects/ui/Score";
 
 export class Game extends Scene {
   constructor() {
@@ -134,6 +135,8 @@ export class Game extends Scene {
         enemyGameObject.colliderComponent.collideWithEnemyProjectile();
       }
     );
+
+    new Score(this, eventBusComponent);
 
     EventBus.emit("current-scene-ready", this);
   }
