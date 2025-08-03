@@ -11,6 +11,7 @@ import {
 } from "../../components/events/EventBusComponent";
 import { EnemyDestroyedComponent } from "../../components/spawners/EnemyDestroyedComponent";
 import { Score } from "../../objects/ui/Score";
+import { Lives } from "../../objects/ui/Lives";
 
 export class Game extends Scene {
   constructor() {
@@ -40,7 +41,7 @@ export class Game extends Scene {
       .setScale(1, 1.25)
       .play("bg3");
     const eventBusComponent = new EventBusComponent();
-    const player = new Player(this);
+    const player = new Player(this, eventBusComponent);
     const scoutSpawner = new EnemySpawnerComponent(
       this,
       ScoutEnemy,
@@ -137,6 +138,7 @@ export class Game extends Scene {
     );
 
     new Score(this, eventBusComponent);
+    new Lives(this, eventBusComponent);
 
     EventBus.emit("current-scene-ready", this);
   }

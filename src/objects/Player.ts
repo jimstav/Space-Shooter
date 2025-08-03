@@ -1,4 +1,8 @@
 import { ColliderComponent } from "../components/collider/ColliderComponent";
+import {
+  CUSTOM_EVENTS,
+  EventBusComponent,
+} from "../components/events/EventBusComponent";
 import { HealthComponent } from "../components/health/HealthComponent";
 import { KeyboardInputComponent } from "../components/input/KeyboardInputComponent";
 import { HorizontalMovementComponent } from "../components/movement/HorizontalMovementComponent";
@@ -11,13 +15,15 @@ export class Player extends Phaser.GameObjects.Container {
   #horizontalMovementComponent: HorizontalMovementComponent;
   #healthComponent: HealthComponent;
   #colliderComponent: ColliderComponent;
+  #eventBusComponent: EventBusComponent;
   #shipSprite: Phaser.GameObjects.Sprite;
   #shipEngineSprite: Phaser.GameObjects.Sprite;
   #shipEngineThrusterSprite: Phaser.GameObjects.Sprite;
 
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene, eventBusComponent: EventBusComponent) {
     super(scene, scene.scale.width / 2, scene.scale.height - 32, []);
 
+    this.#eventBusComponent = eventBusComponent;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
 
@@ -100,6 +106,7 @@ export class Player extends Phaser.GameObjects.Container {
       this.#hide();
       this.setVisible(true);
       this.#shipSprite.play({ key: "explosion" });
+      this.#eventBusComponent.emit(CUSTOM_EVENTS.PLAYER_DESTROYED);
       return;
     }
 
