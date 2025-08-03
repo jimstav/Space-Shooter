@@ -1,10 +1,16 @@
+import { CUSTOM_EVENTS, EventBusComponent } from "../events/EventBusComponent";
 import { HealthComponent } from "../health/HealthComponent";
 
 export class ColliderComponent {
   #healthComponent: HealthComponent;
+  #eventBusComponent: EventBusComponent;
 
-  constructor(healthComponent: HealthComponent) {
+  constructor(
+    healthComponent: HealthComponent,
+    eventBusComponent: EventBusComponent
+  ) {
     this.#healthComponent = healthComponent;
+    this.#eventBusComponent = eventBusComponent;
   }
 
   collideWithEnemyShip() {
@@ -19,5 +25,6 @@ export class ColliderComponent {
       return;
     }
     this.#healthComponent.hit();
+    this.#eventBusComponent.emit(CUSTOM_EVENTS.SHIP_HIT);
   }
 }

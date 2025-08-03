@@ -1,3 +1,4 @@
+import { CUSTOM_EVENTS, EventBusComponent } from "../events/EventBusComponent";
 import { InputComponent } from "../input/InputComponent";
 
 interface BulletConfig {
@@ -15,15 +16,18 @@ export class WeaponComponent {
   #bulletGroup: Phaser.Physics.Arcade.Group;
   #fireBulletInterval: number;
   #bulletConfig: BulletConfig;
+  #eventBusComponent: EventBusComponent;
 
   constructor(
     gameObject: Phaser.GameObjects.Container,
     inputComponent: InputComponent,
-    bulletConfig: BulletConfig
+    bulletConfig: BulletConfig,
+    eventBusComponent: EventBusComponent
   ) {
     this.#gameObject = gameObject;
     this.#inputComponent = inputComponent;
     this.#bulletConfig = bulletConfig;
+    this.#eventBusComponent = eventBusComponent;
     this.#fireBulletInterval = 0;
 
     this.#bulletGroup = this.#gameObject.scene.physics.add.group({
@@ -82,6 +86,7 @@ export class WeaponComponent {
       bullet.setFlipY(this.#bulletConfig.flipY);
 
       this.#fireBulletInterval = this.#bulletConfig.interval;
+      this.#eventBusComponent.emit(CUSTOM_EVENTS.SHIP_SHOOT);
     }
   }
 
