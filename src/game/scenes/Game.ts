@@ -12,6 +12,7 @@ import {
 import { EnemyDestroyedComponent } from "../../components/spawners/EnemyDestroyedComponent";
 import { Score } from "../../objects/ui/Score";
 import { Lives } from "../../objects/ui/Lives";
+import { AudioManager } from "../../objects/AudioManager";
 
 export class Game extends Scene {
   constructor() {
@@ -139,6 +140,7 @@ export class Game extends Scene {
 
     new Score(this, eventBusComponent);
     new Lives(this, eventBusComponent);
+    new AudioManager(this, eventBusComponent);
 
     EventBus.emit("current-scene-ready", this);
   }
